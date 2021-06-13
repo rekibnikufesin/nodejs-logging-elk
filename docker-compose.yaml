@@ -1,0 +1,55 @@
+version: '3'
+services:
+  # NodeJS/ExpressJS server
+  express_server:
+    container_name: expressjs
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+    - './:/app'
+    - '/app/node_modules'
+    ports:
+      - 3000:3000
+      - 9229:9229
+    environment:
+      - NODE_ENV=dev
+    entrypoint: ["npm", "run", "start"]
+
+  # Elasticsearch
+  eslogs:
+    image: elasticsearch:7.8.0
+    container_name: eslogs
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - ./elastic/elasticsearch.yaml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+
+  # Kibana. Gotta have a pretty UI, amiright?
+  kibana_demo:
+    image: docker.elastic.co/kibana/kibana:7.8.0
+    container_name: kibana_demo
+    volumes:
+    - ./elastic/kibana.yaml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5601:5601
+
+  # All hail the mighty, mighty LOOOOOOOGSTAAAAAAAAASH:
+  logstash_demo:
+    image: logstash:7.8.1
+    container_name: logstash_demo
+    volumes:
+    - ./elastic/logging.conf:/usr/share/logstash/pipeline/logging.conf
+    - ./elastic/logstash.yaml:/usr/share/logstash/config/logstash.yml
+    ports:
+    - 1514:1514/udp
+    - 1515:1515
+    - 1515:1515/udp
+
+volumes:
+  elasticsearch_data:
+    driver: local
