@@ -13,6 +13,11 @@ You'll need docker desktop to run the example.
 Type `make up` to bring the docker-compose environment up. This will launch the ExpressJS application server, Elasticsearch, 
 Logstash, and Kibana.
 
+## Seeding the database environment
+
+Use `make migrate` to create the database schema (required for the `/users` endpoint) followed by `make seed` to populate 
+the database with test data.
+
 ## Generate some logs
 
 Once the environment is running, hit `http://localhost:3000` and `http://localhost:3000/users` to generate some logs.
