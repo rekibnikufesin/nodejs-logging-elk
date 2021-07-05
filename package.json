@@ -1,9 +1,10 @@
 {
   "name": "loggingexample",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "./node_modules/.bin/nodemon --inspect=0.0.0.0:9229 ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -11,6 +12,14 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "^1.9.2",
-    "morgan": "~1.9.1"
+    "knex": "^0.21.19",
+    "morgan": "~1.9.1",
+    "objection": "^2.2.15",
+    "pg": "^8.6.0",
+    "winston": "^3.3.3",
+    "winston-logstash-transport": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
   }
 }

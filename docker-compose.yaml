@@ -14,7 +14,7 @@ services:
       - 9229:9229
     environment:
       - NODE_ENV=dev
-    entrypoint: ["npm", "run", "start"]
+    entrypoint: ["npm", "run", "dev"]
 
   # Elasticsearch
   eslogs:
@@ -50,6 +50,20 @@ services:
     - 1515:1515
     - 1515:1515/udp
 
+  # Postgres DB for saving stuff
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: users
+    volumes:
+    - api_db_data:/var/lib/postgresql/data
+    ports:
+    - 5432:5432
+
 volumes:
   elasticsearch_data:
+    driver: local
+  api_db_data:
     driver: local
